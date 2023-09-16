@@ -652,7 +652,8 @@ public class Main extends javax.swing.JFrame {
 
         Dba db = new Dba("./DATA.mdb");
         db.conectar();
-        UIManager.put("nimbusOrange", new Color(0, 153, 0));
+        UIManager.put("nimbusOrange", color1);
+        // no entindo porque no se cambia el color 
         final Timer timer = new Timer(35, new ActionListener() {
             int progress = 0;
             int maxProgress = 5000;
@@ -665,7 +666,7 @@ public class Main extends javax.swing.JFrame {
                     progress += 50;
                 } else {
                     ((Timer) e.getSource()).stop();
-
+                    JOptionPane.showMessageDialog(jPanel4, "Ejecucion completa sin errores");
                     try {
                         db.query.execute("select [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID] from TenRecord");
                         ResultSet rs = db.query.getResultSet();
@@ -687,7 +688,7 @@ public class Main extends javax.swing.JFrame {
             }
 
         });
-      
+UIManager.put("", null);
         C_textArea.setText("");
         timer.start();
 
@@ -697,7 +698,7 @@ public class Main extends javax.swing.JFrame {
 
         Dba db = new Dba("./DATA.mdb");
         db.conectar();
-        UIManager.put("nimbusOrange", new Color(255, 153, 0));
+        UIManager.put("nimbusOrange", color2);
 
         final Timer timer = new Timer(40, new ActionListener() {
             int progress = 0;
@@ -711,7 +712,7 @@ public class Main extends javax.swing.JFrame {
                     progress += 50;
                 } else {
                     ((Timer) e.getSource()).stop();
-
+                    JOptionPane.showMessageDialog(jPanel4, "Ejecucion completa sin errores");
                     try {
                         db.query.execute("select [Order ID], [Product ID], [Ship Date], Sales, Quantity, Discount, Profit   from TenRecord");
                         ResultSet rs = db.query.getResultSet();
@@ -733,7 +734,7 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
-        jProgressBar1.removeAll();
+        UIManager.put("", null);
         C_textArea.setText("");
         timer.start();
     }//GEN-LAST:event_jButton6MouseClicked
@@ -743,21 +744,21 @@ public class Main extends javax.swing.JFrame {
         Dba db = new Dba("./DATA.mdb");
 
         db.conectar();
-        UIManager.put("nimbusOrange", new Color(255, 0, 51));
+        UIManager.put("nimbusOrange", color3);
         final Timer timer = new Timer(45, new ActionListener() {
             int progress = 0;
             int maxProgress = 5000;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                
                 if (progress <= maxProgress) {
 
                     jProgressBar1.setValue(progress * 100 / maxProgress);
                     progress += 50;
                 } else {
                     ((Timer) e.getSource()).stop();
-
+                    JOptionPane.showMessageDialog(jPanel4, "Ejecucion completa sin errores");
                     try {
                         db.query.execute("select [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region from " + "     TenRecord");
                         ResultSet rs = db.query.getResultSet();
@@ -784,7 +785,8 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
-        jProgressBar1.removeAll();
+        
+        UIManager.put("", null);
         C_textArea.setText("");
         timer.start();
     }//GEN-LAST:event_jButton5MouseClicked
@@ -794,7 +796,7 @@ public class Main extends javax.swing.JFrame {
         Dba db = new Dba("./DATA.mdb");
 
         db.conectar();
-        UIManager.put("nimbusOrange", new Color(51, 51, 255));
+        UIManager.put("nimbusOrange", color4);
         final Timer timer = new Timer(25, new ActionListener() {
 
             int progress = 0;
@@ -812,7 +814,7 @@ public class Main extends javax.swing.JFrame {
                     try {
                         db.query.execute("select [Product ID], Category, [Sub-Category], [Product Name] from " + "     TenRecord");
                         ResultSet rs = db.query.getResultSet();
-
+                        JOptionPane.showMessageDialog(jPanel4, "Ejecucion completa sin errores");
                         while (rs.next()) {
                             String ProductID = rs.getString("Product ID");
                             String Category = rs.getString("Category");
@@ -832,7 +834,7 @@ public class Main extends javax.swing.JFrame {
             }
         }
         );
-        jProgressBar1.removeAll();
+        UIManager.put("", null);
         C_textArea.setText("");
         timer.start();
 
@@ -844,8 +846,10 @@ public class Main extends javax.swing.JFrame {
 
         jProgressBar1.setValue(0);
 
-        UIManager.put("nimbusOrange", null);
-
+        UIManager.put("", null);
+        
+        
+        
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
@@ -1018,5 +1022,12 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 int progress = 1;
-    int dos = 0;
+    Color color1 = new Color(0, 153, 0);
+
+    Color color2 = new Color(255, 153, 0);
+
+    Color color3 = new Color(255, 0, 51);
+
+    Color color4 = new Color(51, 51, 255);
+
 }
