@@ -687,7 +687,7 @@ public class Main extends javax.swing.JFrame {
             }
 
         });
-        jProgressBar1.removeAll();
+      
         C_textArea.setText("");
         timer.start();
 
@@ -733,7 +733,7 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
-jProgressBar1.removeAll();
+        jProgressBar1.removeAll();
         C_textArea.setText("");
         timer.start();
     }//GEN-LAST:event_jButton6MouseClicked
@@ -784,7 +784,7 @@ jProgressBar1.removeAll();
                 }
             }
         });
-jProgressBar1.removeAll();
+        jProgressBar1.removeAll();
         C_textArea.setText("");
         timer.start();
     }//GEN-LAST:event_jButton5MouseClicked
@@ -832,7 +832,7 @@ jProgressBar1.removeAll();
             }
         }
         );
-jProgressBar1.removeAll();
+        jProgressBar1.removeAll();
         C_textArea.setText("");
         timer.start();
 
