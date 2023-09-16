@@ -1,10 +1,15 @@
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import org.w3c.dom.events.UIEvent;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -272,7 +277,7 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(429, 429, 429)
                         .addComponent(jButton1)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,6 +373,9 @@ public class Main extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
 
+        jProgressBar1.setBorderPainted(false);
+        jProgressBar1.setOpaque(true);
+
         jButton2.setText("Clear");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -430,7 +438,7 @@ public class Main extends javax.swing.JFrame {
                                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 280, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -501,7 +509,7 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1051, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton7)
                         .addGap(422, 422, 422)
@@ -529,7 +537,10 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -661,69 +672,42 @@ public class Main extends javax.swing.JFrame {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
 
         Dba db = new Dba("./Database2.accdb");
-
         db.conectar();
 
-        Thread thread = new Thread(new Runnable() {
+        Timer timer = new Timer(100, new ActionListener() {
+
             @Override
-            public void run() {
+            public void actionPerformed(ActionEvent e) {
+                if (progress <= 101) {
+                    jProgressBar1.setValue(progress);
 
-                long duration = 4000;
-                int maxProgress = 100;
-                int sleepTime = (int) (duration / maxProgress);
-
-                for (int i = 0; i <= maxProgress; i++) {
-                    final int progress = i;
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            jProgressBar1.setBackground(new Color(0, 153, 0));
-                            jProgressBar1.setValue(progress);
-                        }
-                    });
-
-                    try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
+                    progress++;
+                } else {
+                    progress = 0;
+                    ((Timer) e.getSource()).stop();
                 }
-
             }
+
         });
 
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+        timer.start();
 
         try {
-            db.query.execute("select [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region from TenRecord");
-
+            db.query.execute("select [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID] from TenRecord");
             ResultSet rs = db.query.getResultSet();
-            String rowText = "";
-            C_textArea.append(rowText);
             while (rs.next()) {
-                String orderID = rs.getString("[Order ID]");
-                String orderDate = rs.getString("[Order Date]");
-                String shipDate = rs.getString("[Ship Date]");
-                String shipMode = rs.getString("[Ship Mode]");
-                String customerID = rs.getString("[Customer ID]");
-
-                rowText = "[Order ID]: " + orderID + "\n"
-                        + "[Order Date]: " + orderDate + "\n"
-                        + "[Ship Date]: " + shipDate + "\n"
-                        + "[Ship Mode]: " + shipMode + "\n"
-                        + "[Customer ID]: " + customerID + "\n";
-
-                C_textArea.append(rowText);
+                String a = rs.getString("Order ID");
+                String b = rs.getString("Order Date");
+                String c = rs.getString("Ship Date");
+                String d = rs.getString("Ship Mode");
+                String e = rs.getString("Customer ID");
+                String est = "Order ID: " + a + "\n" + "Order Date: " + b + "\n" + "Ship Date: " + c + "\n" + "Ship Mode: " + d + "\n" + "Customer ID: " + e;
+                C_textArea.setText(est);
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         db.desconectar();
-
 
     }//GEN-LAST:event_jButton3MouseClicked
 
@@ -1027,16 +1011,24 @@ public class Main extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -1109,4 +1101,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
+int progress = 1;
+    int dos = 0;
 }
