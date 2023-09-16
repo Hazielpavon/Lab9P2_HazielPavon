@@ -1,15 +1,12 @@
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import org.w3c.dom.events.UIEvent;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -563,7 +560,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
-        Dba db = new Dba("./Database2.accdb");
+        Dba db = new Dba("./DATA.mdb");
         db.conectar();
 
         String id = "11";
@@ -671,258 +668,181 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
 
-        Dba db = new Dba("./Database2.accdb");
+        Dba db = new Dba("./DATA.mdb");
         db.conectar();
 
-        Timer timer = new Timer(100, new ActionListener() {
+        final Timer timer = new Timer(35, new ActionListener() {
+            int progress = 0;
+            int maxProgress = 5000;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (progress <= 101) {
-                    jProgressBar1.setValue(progress);
-
-                    progress++;
+                if (progress <= maxProgress) {
+                    jProgressBar1.setValue(progress * 100 / maxProgress);
+                    progress += 50;
                 } else {
-                    progress = 0;
                     ((Timer) e.getSource()).stop();
+
+                    try {
+                        db.query.execute("select [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID] from TenRecord"); 
+                        ResultSet rs = db.query.getResultSet();
+                        while (rs.next()) {
+                            String a = rs.getString("Order ID");
+                            String b = rs.getString("Order Date");
+                            String c = rs.getString("Ship Date");
+                            String d = rs.getString("Ship Mode");
+                            String z = rs.getString("Customer ID");
+                            String est = "Order ID: " + a + "\n" + "Order Date: " + b + "\n" + "Ship Date: " + c + "\n" + "Ship Mode: " + d + "\n" + "Customer ID: " + z;
+                            C_textArea.setText(est);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    db.desconectar();
                 }
+
             }
 
         });
-
+        C_textArea.setText("");
         timer.start();
-
-        try {
-            db.query.execute("select [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID] from TenRecord");
-            ResultSet rs = db.query.getResultSet();
-            while (rs.next()) {
-                String a = rs.getString("Order ID");
-                String b = rs.getString("Order Date");
-                String c = rs.getString("Ship Date");
-                String d = rs.getString("Ship Mode");
-                String e = rs.getString("Customer ID");
-                String est = "Order ID: " + a + "\n" + "Order Date: " + b + "\n" + "Ship Date: " + c + "\n" + "Ship Mode: " + d + "\n" + "Customer ID: " + e;
-                C_textArea.setText(est);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        db.desconectar();
 
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
 
-        Dba db = new Dba("./Database2.accdb");
-
+        Dba db = new Dba("./DATA.mdb");
         db.conectar();
 
-        Thread thread = new Thread(new Runnable() {
+        final Timer timer = new Timer(40, new ActionListener() {
+            int progress = 0;
+            int maxProgress = 5000;
+
             @Override
-            public void run() {
-
-                long duration = 5000;
-                int maxProgress = 100;
-                int sleepTime = (int) (duration / maxProgress);
-
-                for (int i = 0; i <= maxProgress; i++) {
-                    final int progress = i;
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            jProgressBar1.setBackground(new Color(255, 153, 0));
-                            jProgressBar1.setValue(progress);
-                        }
-                    });
+            public void actionPerformed(ActionEvent e) {
+                if (progress <= maxProgress) {
+                    jProgressBar1.setValue(progress * 100 / maxProgress);
+                    progress += 50;
+                } else {
+                    ((Timer) e.getSource()).stop();
 
                     try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException ex) {
+                        db.query.execute("select [Order ID], [Product ID], [Ship Date], Sales, Quantity, Discount, Profit   from TenRecord");
+                        ResultSet rs = db.query.getResultSet();
+                        while (rs.next()) {
+                            String orderID = rs.getString("Order ID");
+                            String ProductID = rs.getString("Product ID");
+                            String Sales = rs.getString("Sales");
+                            String Quantity = rs.getString("Quantity");
+                            String Discount = rs.getString("Discount");
+                            String Profit = rs.getString("Profit");
+                            String est = "Order ID: " + orderID + "\n" + "Product ID: " + ProductID + "\n" + "Sales: " + Sales + "\n" + "Quantity: " + Quantity + "\n" + "Discount: " + Discount + "\n" + "Profit" + Profit;
+                            C_textArea.setText(est);
+                        }
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                }
+                    db.desconectar();
 
+                }
             }
         });
-
-        thread.start();
-
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            db.query.execute("select [Order ID], [Product ID], Sales, Quantity, Discount, Profit from " + "     TenRecord");
-
-            ResultSet rs = db.query.getResultSet();
-
-            String rowText = "";
-            C_textArea.append(rowText);
-            while (rs.next()) {
-                String orderID = rs.getString("[Order ID]");
-                String ProductID = rs.getString("[ProductID]");
-                String Sales = rs.getString("Sales");
-                String Quantity = rs.getString("Quantity");
-                String Discount = rs.getString("Discount");
-                String Profit = rs.getString("Profit");
-
-                rowText = "[Order ID]: " + orderID + "\n"
-                        + "[Product ID]: " + ProductID + "\n"
-                        + "Sales : " + Sales + "\n"
-                        + "Quantity: " + Quantity + "\n"
-                        + "Discount: " + Discount + "\n"
-                        + "Profit: " + Profit + "\n";
-
-                C_textArea.append(rowText);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        db.desconectar();
-
-
+        C_textArea.setText("");
+        timer.start();
     }//GEN-LAST:event_jButton6MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
 
-        Dba db = new Dba("./Database2.accdb");
+        Dba db = new Dba("./DATA.mdb");
 
         db.conectar();
 
-        Thread thread = new Thread(new Runnable() {
+        final Timer timer = new Timer(45, new ActionListener() {
+            int progress = 0;
+            int maxProgress = 5000;
+
             @Override
-            public void run() {
-
-                long duration = 6000;
-                int maxProgress = 100;
-                int sleepTime = (int) (duration / maxProgress);
-
-                for (int i = 0; i <= maxProgress; i++) {
-                    final int progress = i;
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            jProgressBar1.setBackground(new Color(255, 0, 51));
-                            jProgressBar1.setValue(progress);
-                        }
-                    });
+            public void actionPerformed(ActionEvent e) {
+                if (progress <= maxProgress) {
+                    jProgressBar1.setValue(progress * 100 / maxProgress);
+                    progress += 50;
+                } else {
+                    ((Timer) e.getSource()).stop();
 
                     try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException ex) {
+                        db.query.execute("select [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region from " + "     TenRecord");
+                        ResultSet rs = db.query.getResultSet();
+
+                        while (rs.next()) {
+                            String CustomerID = rs.getString("Customer ID");
+                            String CustomerName = rs.getString("Customer Name");
+                            String Segment = rs.getString("Segment");
+                            String Country = rs.getString("Country");
+                            String City = rs.getString("City");
+                            String State = rs.getString("State");
+                            String PostalCode = rs.getString("Postal Code");
+                            String Region = rs.getString("Region");
+
+                            String est = "Customer ID: " + CustomerID + "\n" + "Customer Name: " + CustomerName + "\n" + "Segment: " + Segment + "\n" + "Country: " + Country + "\n" + "City: " + City + "\n" + "State: " + State + "\n" + "Postal Code : " + PostalCode + "\n" + "Region: " + Region + "\n";
+
+                            C_textArea.setText(est);
+                        }
+                    } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
-                }
+                    db.desconectar();
 
+                }
             }
         });
-
-        thread.start();
-
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            db.query.execute("select [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region from " + "     TenRecord");
-            ResultSet rs = db.query.getResultSet();
-
-            String rowText = "";
-            C_textArea.append(rowText);
-            while (rs.next()) {
-                String CustomerID = rs.getString("[Customer ID]");
-                String CustomerName = rs.getString("[Customer Name]");
-                String Segment = rs.getString("Segment");
-                String Country = rs.getString("Country");
-                String City = rs.getString("City");
-                String State = rs.getString("State");
-                String PostalCode = rs.getString("[Postal Code]");
-                String Region = rs.getString("Region");
-
-                rowText = "[Customer ID]: " + CustomerID + "\n"
-                        + "[Customer Name]: " + CustomerName + "\n"
-                        + "Segment: " + Segment + "\n"
-                        + "Country: " + Country + "\n"
-                        + "City: " + City + "\n"
-                        + "State: " + State + "\n"
-                        + "[Postal Code] : " + PostalCode + "\n"
-                        + "Region: " + Region + "\n";
-
-                C_textArea.append(rowText);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        db.desconectar();
+        C_textArea.setText("");
+        timer.start();
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
 
-        Dba db = new Dba("./Database2.accdb");
-        Thread thread = new Thread(new Runnable() {
+        Dba db = new Dba("./DATA.mdb");
+
+        db.conectar();
+
+        final Timer timer = new Timer(25, new ActionListener() {
+            int progress = 0;
+            int maxProgress = 5000;
+
             @Override
-            public void run() {
-
-                long duration = 3000;
-                int maxProgress = 100;
-                int sleepTime = (int) (duration / maxProgress);
-
-                for (int i = 0; i <= maxProgress; i++) {
-                    final int progress = i;
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            jProgressBar1.setBackground(new Color(51, 51, 255));
-                            jProgressBar1.setValue(progress);
-                        }
-                    });
+            public void actionPerformed(ActionEvent e) {
+                if (progress <= maxProgress) {
+                    jProgressBar1.setValue(progress * 100 / maxProgress);
+                    progress += 50;
+                } else {
+                    ((Timer) e.getSource()).stop();
 
                     try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException ex) {
+                        db.query.execute("select [Product ID], Category, [Sub-Category], [Product Name] from " + "     TenRecord");
+                        ResultSet rs = db.query.getResultSet();
+
+                        while (rs.next()) {
+                            String ProductID = rs.getString("Product ID");
+                            String Category = rs.getString("Category");
+                            String SubCategory = rs.getString("Sub-Category");
+                            String ProductName = rs.getString("Product Name");
+
+                            String rowText = "[Product ID]: " + ProductID + "\n" + "Category: " + Category + "\n" + "[Sub-Category]: " + SubCategory + "\n" + "[Product Name]: " + ProductName + "\n";
+
+                            C_textArea.setText(rowText);
+                        }
+                    } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
+                    db.desconectar();
+
                 }
-
             }
-        });
-
-        thread.start();
-
-        try {
-            thread.join();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
         }
-        db.conectar();
-        try {
-            db.query.execute("select [Product ID], Category, Sub-Category, [Product Name] from " + "     TenRecord");
+        );
+        C_textArea.setText("");
+        timer.start();
 
-            ResultSet rs = db.query.getResultSet();
-
-            String rowText = "";
-            C_textArea.append(rowText);
-            while (rs.next()) {
-                String ProductID = rs.getString("[Product ID]");
-                String Category = rs.getString("Category");
-                String SubCategory = rs.getString("[Sub-Category]");
-                String ProductName = rs.getString("[Product Name]");
-
-                rowText = "[Product ID]: " + ProductID + "\n"
-                        + "Category: " + Category + "\n"
-                        + "[Sub-Category]: " + SubCategory + "\n"
-                        + "[Product Name]: " + ProductName + "\n";
-
-                C_textArea.append(rowText);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        db.desconectar();
 
     }//GEN-LAST:event_jButton4MouseClicked
 
@@ -933,13 +853,13 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
-        Dba db = new Dba(" ");
+        Dba db = new Dba("./DATA.mdb");
         db.conectar();
         String input = JOptionPane.showInputDialog(this, "Ingrese el índice que desea borrar");
         int i = Integer.parseInt(input);
 
         try {
-            db.query.execute("delete from TenRecord  where Id = 'i' ");
+            db.query.execute("delete from TenRecord  \n where Id = " + i);
             db.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -949,7 +869,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         DefaultTableModel modelo = (DefaultTableModel) C_Tabla.getModel();
-        Dba db = new Dba("");
+        Dba db = new Dba("./DATA.mdb");
 
         db.conectar();
 
@@ -978,12 +898,12 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
         DefaultTableModel modelo = (DefaultTableModel) C_Tabla.getModel();
-        Dba db = new Dba("");
+        Dba db = new Dba("./DATA.mdb");
 
         db.conectar();
 
         try {
-            db.query.execute("select Row_ID, Order_ID, Order_Date, Customer_ID, Country, City, Product_ID, Sales from TenRecord");
+            db.query.execute("select [Row ID], [Order ID], [Order Date], [Customer ID], Country, City, [Product ID], Sales from TenRecord");
             ResultSet rs = db.query.getResultSet();
 
             while (rs.next()) {
