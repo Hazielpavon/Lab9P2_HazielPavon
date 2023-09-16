@@ -80,6 +80,7 @@ public class Main extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         SCategory = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jProgressBar3 = new javax.swing.JProgressBar();
         jPanel3 = new javax.swing.JPanel();
         jProgressBar1 = new javax.swing.JProgressBar();
         jButton2 = new javax.swing.JButton();
@@ -95,6 +96,7 @@ public class Main extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jProgressBar2 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -170,6 +172,9 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jProgressBar3.setBorderPainted(false);
+        jProgressBar3.setOpaque(true);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -188,7 +193,8 @@ public class Main extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(ShipM)
-                                            .addComponent(Order)))
+                                            .addComponent(Order)
+                                            .addComponent(jProgressBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -281,7 +287,9 @@ public class Main extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(76, 76, 76)
+                .addGap(20, 20, 20)
+                .addComponent(jProgressBar3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -514,13 +522,18 @@ public class Main extends javax.swing.JFrame {
                         .addGap(422, 422, 422)
                         .addComponent(jButton9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton8)))
+                        .addComponent(jButton8))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addContainerGap()
+                .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -538,7 +551,7 @@ public class Main extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -564,87 +577,114 @@ public class Main extends javax.swing.JFrame {
 
         Dba db = new Dba("./DATA.mdb");
         db.conectar();
+        
+        UIManager.put("nimbusOrange", color2);
 
-        String orderID = Order.getText();
-        Order.setText(" ");
+        final Timer timer = new Timer(40, new ActionListener() {
+            int progress = 0;
+            int maxProgress = 5000;
 
-        String orderD = OrderD.getText();
-        OrderD.setText(" ");
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-        String shipD = ShipD.getText();
-        ShipD.setText(" ");
+                if (progress <= maxProgress) {
+                    jProgressBar3.setValue(progress * 100 / maxProgress);
+                    progress += 50;
+                } else {
+                    ((Timer) e.getSource()).stop();
+                    JOptionPane.showMessageDialog(jPanel4, "Ejecucion completa sin errores");
+                    try {
+                        String orderID = Order.getText();
+                        Order.setText(" ");
 
-        String shipM = ShipM.getText();
-        ShipM.setText(" ");
+                        String orderD = OrderD.getText();
+                        OrderD.setText(" ");
 
-        String customerID = Costumer.getText();
-        Costumer.setText(" ");
+                        String shipD = ShipD.getText();
+                        ShipD.setText(" ");
 
-        String customerN = CustumerN.getText();
-        CustumerN.setText(" ");
+                        String shipM = ShipM.getText();
+                        ShipM.setText(" ");
 
-        String segment = Segment.getText();
-        Segment.setText(" ");
+                        String customerID = Costumer.getText();
+                        Costumer.setText(" ");
 
-        String country = Country.getText();
-        Country.setText(" ");
+                        String customerN = CustumerN.getText();
+                        CustumerN.setText(" ");
 
-        String city = City.getText();
-        City.setText(" ");
+                        String segment = Segment.getText();
+                        Segment.setText(" ");
 
-        String state = State.getText();
-        State.setText(" ");
+                        String country = Country.getText();
+                        Country.setText(" ");
 
-        String postal = Postal.getText();
-        Postal.setText(" ");
+                        String city = City.getText();
+                        City.setText(" ");
 
-        String region = Region.getText();
-        Region.setText(" ");
+                        String state = State.getText();
+                        State.setText(" ");
 
-        String productID = Product.getText();
-        Product.setText(" ");
+                        String postal = Postal.getText();
+                        Postal.setText(" ");
 
-        String category = Category.getText();
-        Category.setText(" ");
+                        String region = Region.getText();
+                        Region.setText(" ");
 
-        String Scategory = SCategory.getText();
-        SCategory.setText(" ");
+                        String productID = Product.getText();
+                        Product.setText(" ");
 
-        String productn = ProductN.getText();
-        ProductN.setText(" ");
+                        String category = Category.getText();
+                        Category.setText(" ");
 
-        String sales = Sales.getText();
-        Sales.setText(" ");
+                        String Scategory = SCategory.getText();
+                        SCategory.setText(" ");
 
-        String quantity = Quantity.getText();
-        Quantity.setText(" ");
+                        String productn = ProductN.getText();
+                        ProductN.setText(" ");
 
-        String discount = Discount.getText();
-        Discount.setText(" ");
+                        String sales = Sales.getText();
+                        Sales.setText(" ");
 
-        String profit = Profit.getText();
-        Profit.setText(" ");
+                        String quantity = Quantity.getText();
+                        Quantity.setText(" ");
 
-        String ID = "11";
+                        String discount = Discount.getText();
+                        Discount.setText(" ");
 
-        try {
-            db.query.execute("INSERT INTO TenRecord "
-                    + "([Row ID], [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region, [Product ID], Category, [Sub-Category], [Product Name], Sales, Quantity, Discount, Profit)"
-                    + " VALUES ('" + ID + "', '" + orderID + "', '" + orderD + "', '" + shipD + "', '" + shipM + "', '" + customerID + "', '" + customerN + "', '" + segment + "', '" + country + "', '" + city + "', '" + state + "', '" + postal + "', '" + region + "', '" + productID + "', '" + category + "', '" + Scategory + "', '" + productn + "', '" + sales + "', '" + quantity + "', '" + discount + "', '" + profit + "')");
+                        String profit = Profit.getText();
+                        Profit.setText(" ");
 
-            db.commit();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        db.desconectar();
-        int x = Integer.parseInt(ID);
+                        String ID = "11";
 
-        x++;
+                        try {
+                            db.query.execute("INSERT INTO TenRecord "
+                                    + "([Row ID], [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region, [Product ID], Category, [Sub-Category], [Product Name], Sales, Quantity, Discount, Profit)"
+                                    + " VALUES ('" + ID + "', '" + orderID + "', '" + orderD + "', '" + shipD + "', '" + shipM + "', '" + customerID + "', '" + customerN + "', '" + segment + "', '" + country + "', '" + city + "', '" + state + "', '" + postal + "', '" + region + "', '" + productID + "', '" + category + "', '" + Scategory + "', '" + productn + "', '" + sales + "', '" + quantity + "', '" + discount + "', '" + profit + "')");
 
-        ID = Integer.toString(x);
+                            db.commit();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        db.desconectar();
+                        int x = Integer.parseInt(ID);
 
-        db.desconectar();
+                        x++;
 
+                        ID = Integer.toString(x);
+
+                        db.desconectar();
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    db.desconectar();
+                }
+
+            }
+
+        });
+        UIManager.put("", null);
+        timer.start();
 
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -688,7 +728,7 @@ public class Main extends javax.swing.JFrame {
             }
 
         });
-UIManager.put("", null);
+        UIManager.put("", null);
         C_textArea.setText("");
         timer.start();
 
@@ -751,7 +791,7 @@ UIManager.put("", null);
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 if (progress <= maxProgress) {
 
                     jProgressBar1.setValue(progress * 100 / maxProgress);
@@ -785,7 +825,7 @@ UIManager.put("", null);
                 }
             }
         });
-        
+
         UIManager.put("", null);
         C_textArea.setText("");
         timer.start();
@@ -847,24 +887,51 @@ UIManager.put("", null);
         jProgressBar1.setValue(0);
 
         UIManager.put("", null);
-        
-        
-        
+
+
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
         Dba db = new Dba("./DATA.mdb");
-        db.conectar();
-        String input = JOptionPane.showInputDialog(this, "Ingrese el índice que desea borrar");
-        int i = Integer.parseInt(input);
 
-        try {
-            db.query.execute("delete from TenRecord where Id = " + i);
-            db.commit();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        db.desconectar();
+        DefaultTableModel ok = (DefaultTableModel) C_Tabla.getModel();
+
+        String input = JOptionPane.showInputDialog(this, "Ingrese el índice que desea borrar");
+        int i = Integer.parseInt(input) - 1;
+        int okay = 0;
+        String borrar = ok.getValueAt(i, okay).toString();
+        db.conectar();
+
+        UIManager.put("nimbusOrange", new Color(0, 153, 0));
+        final Timer timer = new Timer(35, new ActionListener() {
+            int progress = 0;
+            int maxProgress = 5000;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (progress <= maxProgress) {
+                    jProgressBar2.setValue(progress * 100 / maxProgress);
+                    progress += 50;
+                } else {
+                    ((Timer) e.getSource()).stop();
+
+                    try {
+                        db.query.execute("delete \n "
+                                + "from TenRecord " + "\n"
+                                + "where [Row ID] = " + "\'" + borrar + "\'");
+                        ResultSet okk = db.query.getResultSet();
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    db.desconectar();
+                }
+
+            }
+
+        });
+        timer.start();
     }//GEN-LAST:event_jButton8MouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
@@ -872,49 +939,91 @@ UIManager.put("", null);
         Dba db = new Dba("./DATA.mdb");
 
         db.conectar();
+        UIManager.put("nimbusOrange", color2);
+        final Timer timer = new Timer(25, new ActionListener() {
 
-        try {
+            int progress = 0;
+            int maxProgress = 5000;
 
-            for (int i = 0; i < modelo.getRowCount(); i++) {
-                String rowID = (String) modelo.getValueAt(i, 0);
-                String orderID = (String) modelo.getValueAt(i, 1);
-                String orderDate = (String) modelo.getValueAt(i, 2);
-                String customerID = (String) modelo.getValueAt(i, 3);
-                String country = (String) modelo.getValueAt(i, 4);
-                String city = (String) modelo.getValueAt(i, 5);
-                String productID = (String) modelo.getValueAt(i, 6);
-                String sales = (String) modelo.getValueAt(i, 7);
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-                String updateQuery = "update TenRecord set [Order ID] = '" + orderID + "', [Order Date] = '" + orderDate + "', [Customer ID] = '" + customerID + "', Country = '" + country + "', City = '" + city + "', [Product ID] = '" + productID + "', Sales = '" + sales + "' where [Row ID] = '" + rowID + "'";
-                db.query.execute(updateQuery);
+                if (progress <= maxProgress) {
+                    jProgressBar2.setValue(progress * 100 / maxProgress);
+                    progress += 50;
+                } else {
+                    ((Timer) e.getSource()).stop();
+                    JOptionPane.showMessageDialog(jPanel4, "Ejecucion completa sin errores");
+                    try {
+
+                        for (int i = 0; i < modelo.getRowCount(); i++) {
+                            String rowID = (String) modelo.getValueAt(i, 0);
+                            String orderID = (String) modelo.getValueAt(i, 1);
+                            String orderDate = (String) modelo.getValueAt(i, 2);
+                            String customerID = (String) modelo.getValueAt(i, 3);
+                            String country = (String) modelo.getValueAt(i, 4);
+                            String city = (String) modelo.getValueAt(i, 5);
+                            String productID = (String) modelo.getValueAt(i, 6);
+                            String sales = (String) modelo.getValueAt(i, 7);
+
+                            String updateQuery = "update TenRecord set [Order ID] = '" + orderID + "', [Order Date] = '" + orderDate + "', [Customer ID] = '" + customerID + "', Country = '" + country + "', City = '" + city + "', [Product ID] = '" + productID + "', Sales = '" + sales + "' where [Row ID] = '" + rowID + "'";
+                            db.query.execute(updateQuery);
+                        }
+
+                        db.commit();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    db.desconectar();
+                }
+
             }
-            db.commit();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
+        );
 
-        db.desconectar();
+        timer.start();
     }//GEN-LAST:event_jButton7MouseClicked
 
     private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
+
         DefaultTableModel modelo = (DefaultTableModel) C_Tabla.getModel();
+
         Dba db = new Dba("./DATA.mdb");
-
         db.conectar();
+        UIManager.put("nimbusOrange", color2);
 
-        try {
-            db.query.execute("select [Row ID], [Order ID], [Order Date], [Customer ID], Country, City, [Product ID], Sales from TenRecord");
-            ResultSet rs = db.query.getResultSet();
+        final Timer timer = new Timer(40, new ActionListener() {
+            int progress = 0;
+            int maxProgress = 5000;
 
-            while (rs.next()) {
-                Object[] row = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)};
-                modelo.addRow(row);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (progress <= maxProgress) {
+                    jProgressBar2.setValue(progress * 100 / maxProgress);
+                    progress += 50;
+                } else {
+                    ((Timer) e.getSource()).stop();
+                    JOptionPane.showMessageDialog(jPanel4, "Ejecucion completa sin errores");
+                    try {
+                        db.query.execute("select [Row ID], [Order ID], [Order Date], [Customer ID], Country, City, [Product ID], Sales from TenRecord");
+                        ResultSet rs = db.query.getResultSet();
+
+                        while (rs.next()) {
+                            Object[] row = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)};
+                            modelo.addRow(row);
+                        }
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    db.desconectar();
+                }
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        });
+        timer.start();
+        jProgressBar2.setValue(0);
 
-        db.desconectar();
     }//GEN-LAST:event_jButton9MouseClicked
 
     /**
@@ -1017,6 +1126,8 @@ UIManager.put("", null);
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JProgressBar jProgressBar2;
+    private javax.swing.JProgressBar jProgressBar3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
