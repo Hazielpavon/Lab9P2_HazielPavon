@@ -1,10 +1,12 @@
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -650,13 +652,14 @@ public class Main extends javax.swing.JFrame {
 
         Dba db = new Dba("./DATA.mdb");
         db.conectar();
-
+        UIManager.put("nimbusOrange", new Color(0, 153, 0));
         final Timer timer = new Timer(35, new ActionListener() {
             int progress = 0;
             int maxProgress = 5000;
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (progress <= maxProgress) {
                     jProgressBar1.setValue(progress * 100 / maxProgress);
                     progress += 50;
@@ -684,6 +687,7 @@ public class Main extends javax.swing.JFrame {
             }
 
         });
+        jProgressBar1.removeAll();
         C_textArea.setText("");
         timer.start();
 
@@ -693,6 +697,7 @@ public class Main extends javax.swing.JFrame {
 
         Dba db = new Dba("./DATA.mdb");
         db.conectar();
+        UIManager.put("nimbusOrange", new Color(255, 153, 0));
 
         final Timer timer = new Timer(40, new ActionListener() {
             int progress = 0;
@@ -700,6 +705,7 @@ public class Main extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (progress <= maxProgress) {
                     jProgressBar1.setValue(progress * 100 / maxProgress);
                     progress += 50;
@@ -727,6 +733,7 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
+jProgressBar1.removeAll();
         C_textArea.setText("");
         timer.start();
     }//GEN-LAST:event_jButton6MouseClicked
@@ -736,14 +743,16 @@ public class Main extends javax.swing.JFrame {
         Dba db = new Dba("./DATA.mdb");
 
         db.conectar();
-
+        UIManager.put("nimbusOrange", new Color(255, 0, 51));
         final Timer timer = new Timer(45, new ActionListener() {
             int progress = 0;
             int maxProgress = 5000;
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (progress <= maxProgress) {
+
                     jProgressBar1.setValue(progress * 100 / maxProgress);
                     progress += 50;
                 } else {
@@ -775,6 +784,7 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
+jProgressBar1.removeAll();
         C_textArea.setText("");
         timer.start();
     }//GEN-LAST:event_jButton5MouseClicked
@@ -784,13 +794,15 @@ public class Main extends javax.swing.JFrame {
         Dba db = new Dba("./DATA.mdb");
 
         db.conectar();
-
+        UIManager.put("nimbusOrange", new Color(51, 51, 255));
         final Timer timer = new Timer(25, new ActionListener() {
+
             int progress = 0;
             int maxProgress = 5000;
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 if (progress <= maxProgress) {
                     jProgressBar1.setValue(progress * 100 / maxProgress);
                     progress += 50;
@@ -820,6 +832,7 @@ public class Main extends javax.swing.JFrame {
             }
         }
         );
+jProgressBar1.removeAll();
         C_textArea.setText("");
         timer.start();
 
@@ -829,6 +842,9 @@ public class Main extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         C_textArea.setText("");
 
+        jProgressBar1.setValue(0);
+
+        UIManager.put("nimbusOrange", null);
 
     }//GEN-LAST:event_jButton2MouseClicked
 
