@@ -563,106 +563,86 @@ public class Main extends javax.swing.JFrame {
         Dba db = new Dba("./DATA.mdb");
         db.conectar();
 
-        String id = "11";
-
-        String order = " ";
-        order = Order.getText();
+        String orderID = Order.getText();
         Order.setText(" ");
 
-        String ship = " ";
-        ship = ShipD.getText();
-        ShipD.setText(" ");
-
-        String segment = " ";
-        segment = Segment.getText();
-        Segment.setText(" ");
-
-        String state = " ";
-        state = State.getText();
-        State.setText(" ");
-
-        String product = " ";
-        product = Product.getText();
-        Product.setText(" ");
-
-        String productn = " ";
-        productn = ProductN.getText();
-        ProductN.setText(" ");
-
-        String sales = " ";
-        sales = Sales.getText();
-        Sales.setText(" ");
-
-        String orderd = " ";
-        orderd = OrderD.getText();
+        String orderD = OrderD.getText();
         OrderD.setText(" ");
 
-        String customer = " ";
-        customer = Costumer.getText();
-        Costumer.setText(" ");
+        String shipD = ShipD.getText();
+        ShipD.setText(" ");
 
-        String country = " ";
-        country = Country.getText();
-        Country.setText(" ");
-
-        String postal = " ";
-        postal = Postal.getText();
-        Postal.setText(" ");
-
-        String category = " ";
-        category = Category.getText();
-        Category.setText(" ");
-
-        String shipm = " ";
-        shipm = ShipM.getText();
+        String shipM = ShipM.getText();
         ShipM.setText(" ");
 
-        String customern = " ";
-        customern = CustumerN.getText();
+        String customerID = Costumer.getText();
+        Costumer.setText(" ");
+
+        String customerN = CustumerN.getText();
         CustumerN.setText(" ");
 
-        String city = " ";
-        city = City.getText();
+        String segment = Segment.getText();
+        Segment.setText(" ");
+
+        String country = Country.getText();
+        Country.setText(" ");
+
+        String city = City.getText();
         City.setText(" ");
 
-        String region = " ";
-        region = Region.getText();
+        String state = State.getText();
+        State.setText(" ");
+
+        String postal = Postal.getText();
+        Postal.setText(" ");
+
+        String region = Region.getText();
         Region.setText(" ");
 
-        String scategory = " ";
-        scategory = SCategory.getText();
+        String productID = Product.getText();
+        Product.setText(" ");
+
+        String category = Category.getText();
+        Category.setText(" ");
+
+        String Scategory = SCategory.getText();
         SCategory.setText(" ");
 
-        String quantity = " ";
-        quantity = Quantity.getText();
+        String productn = ProductN.getText();
+        ProductN.setText(" ");
+
+        String sales = Sales.getText();
+        Sales.setText(" ");
+
+        String quantity = Quantity.getText();
         Quantity.setText(" ");
 
-        String discount = " ";
-        discount = Discount.getText();
+        String discount = Discount.getText();
         Discount.setText(" ");
 
-        String profit = " ";
-        profit = Profit.getText();
+        String profit = Profit.getText();
         Profit.setText(" ");
 
+        String ID = "11";
+
         try {
-            db.query.execute("insert into TenRecord "
-                    + "(Id, [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region, [Product ID], Category, [Sub-Category], [Product Name], Sales, Quantity, Discount, Profit) "
-                    + "VALUES ('" + id + "', '" + order + "', '" + orderd + "', '" + ship + "', '" + shipm + "', '" + customer + "', '" + customern + "', '" + segment + "', '" + country + "', '" + city + "', '" + state + "', '" + postal + "', '" + region + "', '" + product + "', '" + category + "', '" + scategory + "', '" + productn + "', '" + sales + "', '" + quantity + "', '" + discount + "', '" + profit + "')");
+            db.query.execute("INSERT INTO TenRecord "
+                    + "([Row ID], [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region, [Product ID], Category, [Sub-Category], [Product Name], Sales, Quantity, Discount, Profit)"
+                    + " VALUES ('" + ID + "', '" + orderID + "', '" + orderD + "', '" + shipD + "', '" + shipM + "', '" + customerID + "', '" + customerN + "', '" + segment + "', '" + country + "', '" + city + "', '" + state + "', '" + postal + "', '" + region + "', '" + productID + "', '" + category + "', '" + Scategory + "', '" + productn + "', '" + sales + "', '" + quantity + "', '" + discount + "', '" + profit + "')");
 
             db.commit();
-
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        int x = Integer.parseInt(id);
+        db.desconectar();
+        int x = Integer.parseInt(ID);
 
         x++;
 
-        id = Integer.toString(x);
+        ID = Integer.toString(x);
 
         db.desconectar();
+
 
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -684,7 +664,7 @@ public class Main extends javax.swing.JFrame {
                     ((Timer) e.getSource()).stop();
 
                     try {
-                        db.query.execute("select [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID] from TenRecord"); 
+                        db.query.execute("select [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID] from TenRecord");
                         ResultSet rs = db.query.getResultSet();
                         while (rs.next()) {
                             String a = rs.getString("Order ID");
@@ -859,7 +839,7 @@ public class Main extends javax.swing.JFrame {
         int i = Integer.parseInt(input);
 
         try {
-            db.query.execute("delete from TenRecord  \n where Id = " + i);
+            db.query.execute("delete from TenRecord where Id = " + i);
             db.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -885,7 +865,7 @@ public class Main extends javax.swing.JFrame {
                 String productID = (String) modelo.getValueAt(i, 6);
                 String sales = (String) modelo.getValueAt(i, 7);
 
-                String updateQuery = "update TenRecord set Order_ID = '" + orderID + "', Order_Date = '" + orderDate + "', Customer_ID = '" + customerID + "', Country = '" + country + "', City = '" + city + "', Product_ID = '" + productID + "', Sales = '" + sales + "' where Row_ID = '" + rowID + "'";
+                String updateQuery = "update TenRecord set [Order ID] = '" + orderID + "', [Order Date] = '" + orderDate + "', [Customer ID] = '" + customerID + "', Country = '" + country + "', City = '" + city + "', [Product ID] = '" + productID + "', Sales = '" + sales + "' where [Row ID] = '" + rowID + "'";
                 db.query.execute(updateQuery);
             }
             db.commit();
