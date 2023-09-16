@@ -1,8 +1,10 @@
 
-import java.util.Date;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -74,7 +76,6 @@ public class Main extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         SCategory = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jProgressBar1 = new javax.swing.JProgressBar();
         jButton2 = new javax.swing.JButton();
@@ -84,6 +85,12 @@ public class Main extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        C_Tabla = new javax.swing.JTable();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -211,9 +218,8 @@ public class Main extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(Country, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(Category)
-                                        .addComponent(Postal, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(Category)
+                                    .addComponent(Postal, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(Costumer)
                                     .addComponent(OrderD))
                                 .addGap(63, 63, 63)
@@ -243,9 +249,7 @@ public class Main extends javax.swing.JFrame {
                                     .addComponent(City, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(0, 0, 0))
+                                    .addComponent(jLabel6)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
@@ -362,21 +366,6 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Agregar Registro", jPanel2);
 
-        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1075, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 547, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Eliminar Registro", jPanel4);
-
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
 
         jButton2.setText("Clear");
@@ -464,6 +453,78 @@ public class Main extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Listar Registro", jPanel3);
 
+        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+
+        C_Tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Row ID", "Order ID", "Order Data", "Customer Id", "Country", "City", "Product Id", "Sales"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(C_Tabla);
+
+        jButton7.setText("Update");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
+
+        jButton8.setText("Eliminar");
+        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton8MouseClicked(evt);
+            }
+        });
+
+        jButton9.setText("Listar");
+        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton9MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton7)
+                        .addGap(422, 422, 422)
+                        .addComponent(jButton9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton8)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton8)
+                    .addComponent(jButton9))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Eliminar Registro", jPanel4);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -491,8 +552,10 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
-        Dba db = new Dba("./Database2.mdb ");
+        Dba db = new Dba("./Database2.accdb");
         db.conectar();
+
+        String id = "11";
 
         String order = " ";
         order = Order.getText();
@@ -576,8 +639,8 @@ public class Main extends javax.swing.JFrame {
 
         try {
             db.query.execute("insert into TenRecord "
-                    + "(OrderID, OrderDate, ShipDate, ShipMode, CustomerID, CustomerName, Segment, Country, City, State, PostalCode, Region, ProductID, Category, SubCategory, ProductName, Sales, Quantity, Discount, Profit) "
-                    + "VALUES ('" + order + "', '" + orderd + "', '" + ship + "', '" + shipm + "', '" + customer + "', '" + customern + "', '" + segment + "', '" + country + "', '" + city + "', '" + state + "', '" + postal + "', '" + region + "', '" + product + "', '" + category + "', '" + scategory + "', '" + productn + "', '" + sales + "', '" + quantity + "', '" + discount + "', '" + profit + "')");
+                    + "(Id, [Order ID], [Order Date], [Ship Date], [Ship Mode], [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region, [Product ID], Category, [Sub-Category], [Product Name], Sales, Quantity, Discount, Profit) "
+                    + "VALUES ('" + id + "', '" + order + "', '" + orderd + "', '" + ship + "', '" + shipm + "', '" + customer + "', '" + customern + "', '" + segment + "', '" + country + "', '" + city + "', '" + state + "', '" + postal + "', '" + region + "', '" + product + "', '" + category + "', '" + scategory + "', '" + productn + "', '" + sales + "', '" + quantity + "', '" + discount + "', '" + profit + "')");
 
             db.commit();
 
@@ -585,56 +648,74 @@ public class Main extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
+        int x = Integer.parseInt(id);
+
+        x++;
+
+        id = Integer.toString(x);
+
         db.desconectar();
 
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
 
-        Dba db = new Dba("./Database2.mdb");
+        Dba db = new Dba("./Database2.accdb");
 
         db.conectar();
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i <= 100; i++) {
+
+                long duration = 4000;
+                int maxProgress = 100;
+                int sleepTime = (int) (duration / maxProgress);
+
+                for (int i = 0; i <= maxProgress; i++) {
                     final int progress = i;
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
+                            jProgressBar1.setBackground(new Color(0, 153, 0));
                             jProgressBar1.setValue(progress);
                         }
                     });
 
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(sleepTime);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
                 }
+
             }
-        }
-                
+        });
 
         try {
-            db.query.execute("select Order ID, Order Date, Ship Date, Ship Mode, Customer ID from " + "     TenRecord");
+            thread.join();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            db.query.execute("select [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region from TenRecord");
 
             ResultSet rs = db.query.getResultSet();
             String rowText = "";
             C_textArea.append(rowText);
             while (rs.next()) {
-                String orderID = rs.getString("Order ID");
-                String orderDate = rs.getString("Order Date");
-                String shipDate = rs.getString("Ship Date");
-                String shipMode = rs.getString("Ship Mode");
-                String customerID = rs.getString("Customer ID");
+                String orderID = rs.getString("[Order ID]");
+                String orderDate = rs.getString("[Order Date]");
+                String shipDate = rs.getString("[Ship Date]");
+                String shipMode = rs.getString("[Ship Mode]");
+                String customerID = rs.getString("[Customer ID]");
 
-                rowText = "Order ID: " + orderID + "\n"
-                        + "Order Date: " + orderDate + "\n"
-                        + "Ship Date: " + shipDate + "\n"
-                        + "Ship Mode: " + shipMode + "\n"
-                        + "Customer ID: " + customerID + "\n";
+                rowText = "[Order ID]: " + orderID + "\n"
+                        + "[Order Date]: " + orderDate + "\n"
+                        + "[Ship Date]: " + shipDate + "\n"
+                        + "[Ship Mode]: " + shipMode + "\n"
+                        + "[Customer ID]: " + customerID + "\n";
 
                 C_textArea.append(rowText);
             }
@@ -648,26 +729,63 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
 
-        Dba db = new Dba("./Database2.mdb");
+        Dba db = new Dba("./Database2.accdb");
 
         db.conectar();
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                long duration = 5000;
+                int maxProgress = 100;
+                int sleepTime = (int) (duration / maxProgress);
+
+                for (int i = 0; i <= maxProgress; i++) {
+                    final int progress = i;
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            jProgressBar1.setBackground(new Color(255, 153, 0));
+                            jProgressBar1.setValue(progress);
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+        thread.start();
+
         try {
-            db.query.execute("select Order ID, Product ID, Sales, Quantity, Discount, Profit from " + "     TenRecord");
+            thread.join();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            db.query.execute("select [Order ID], [Product ID], Sales, Quantity, Discount, Profit from " + "     TenRecord");
 
             ResultSet rs = db.query.getResultSet();
 
             String rowText = "";
             C_textArea.append(rowText);
             while (rs.next()) {
-                String orderID = rs.getString("Order ID");
-                String ProductID = rs.getString("Product ID");
+                String orderID = rs.getString("[Order ID]");
+                String ProductID = rs.getString("[ProductID]");
                 String Sales = rs.getString("Sales");
                 String Quantity = rs.getString("Quantity");
                 String Discount = rs.getString("Discount");
                 String Profit = rs.getString("Profit");
 
-                rowText = "Order ID: " + orderID + "\n"
-                        + "Product ID: " + ProductID + "\n"
+                rowText = "[Order ID]: " + orderID + "\n"
+                        + "[Product ID]: " + ProductID + "\n"
                         + "Sales : " + Sales + "\n"
                         + "Quantity: " + Quantity + "\n"
                         + "Discount: " + Discount + "\n"
@@ -685,32 +803,69 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
 
-        Dba db = new Dba("./Database2.mdb");
+        Dba db = new Dba("./Database2.accdb");
 
         db.conectar();
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                long duration = 6000;
+                int maxProgress = 100;
+                int sleepTime = (int) (duration / maxProgress);
+
+                for (int i = 0; i <= maxProgress; i++) {
+                    final int progress = i;
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            jProgressBar1.setBackground(new Color(255, 0, 51));
+                            jProgressBar1.setValue(progress);
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+        thread.start();
+
         try {
-            db.query.execute("select Customer ID, Customer Name, Segment, Country, City, State, Postal Code, Region from " + "     TenRecord");
+            thread.join();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            db.query.execute("select [Customer ID], [Customer Name], Segment, Country, City, State, [Postal Code], Region from " + "     TenRecord");
             ResultSet rs = db.query.getResultSet();
 
             String rowText = "";
             C_textArea.append(rowText);
             while (rs.next()) {
-                String CustomerID = rs.getString("Customer ID");
-                String CustomerName = rs.getString("Customer Name");
+                String CustomerID = rs.getString("[Customer ID]");
+                String CustomerName = rs.getString("[Customer Name]");
                 String Segment = rs.getString("Segment");
                 String Country = rs.getString("Country");
                 String City = rs.getString("City");
                 String State = rs.getString("State");
-                String PostalCode = rs.getString("Postal Code");
+                String PostalCode = rs.getString("[Postal Code]");
                 String Region = rs.getString("Region");
 
-                rowText = "Customer ID: " + CustomerID + "\n"
-                        + "Customer Name: " + CustomerName + "\n"
+                rowText = "[Customer ID]: " + CustomerID + "\n"
+                        + "[Customer Name]: " + CustomerName + "\n"
                         + "Segment: " + Segment + "\n"
                         + "Country: " + Country + "\n"
                         + "City: " + City + "\n"
                         + "State: " + State + "\n"
-                        + "Postal Code : " + PostalCode + "\n"
+                        + "[Postal Code] : " + PostalCode + "\n"
                         + "Region: " + Region + "\n";
 
                 C_textArea.append(rowText);
@@ -723,26 +878,60 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
 
-        Dba db = new Dba("./Database2.mdb");
+        Dba db = new Dba("./Database2.accdb");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
+                long duration = 3000;
+                int maxProgress = 100;
+                int sleepTime = (int) (duration / maxProgress);
+
+                for (int i = 0; i <= maxProgress; i++) {
+                    final int progress = i;
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            jProgressBar1.setBackground(new Color(51, 51, 255));
+                            jProgressBar1.setValue(progress);
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+        thread.start();
+
+        try {
+            thread.join();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
         db.conectar();
         try {
-            db.query.execute("select Product ID, Category, Sub-Category, Product Name from " + "     TenRecord");
+            db.query.execute("select [Product ID], Category, Sub-Category, [Product Name] from " + "     TenRecord");
 
             ResultSet rs = db.query.getResultSet();
 
             String rowText = "";
             C_textArea.append(rowText);
             while (rs.next()) {
-                String ProductID = rs.getString("Product ID");
+                String ProductID = rs.getString("[Product ID]");
                 String Category = rs.getString("Category");
-                String SubCategory = rs.getString("Sub-Category");
-                String ProductName = rs.getString("Product Name");
+                String SubCategory = rs.getString("[Sub-Category]");
+                String ProductName = rs.getString("[Product Name]");
 
-                rowText = "Product ID: " + ProductID + "\n"
+                rowText = "[Product ID]: " + ProductID + "\n"
                         + "Category: " + Category + "\n"
-                        + "Sub-Category: " + SubCategory + "\n"
-                        + "Product Name: " + ProductName + "\n";
+                        + "[Sub-Category]: " + SubCategory + "\n"
+                        + "[Product Name]: " + ProductName + "\n";
 
                 C_textArea.append(rowText);
             }
@@ -758,6 +947,71 @@ public class Main extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
+        Dba db = new Dba(" ");
+        db.conectar();
+        String input = JOptionPane.showInputDialog(this, "Ingrese el índice que desea borrar");
+        int i = Integer.parseInt(input);
+
+        try {
+            db.query.execute("delete from TenRecord  where Id = 'i' ");
+            db.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        db.desconectar();
+    }//GEN-LAST:event_jButton8MouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        DefaultTableModel modelo = (DefaultTableModel) C_Tabla.getModel();
+        Dba db = new Dba("");
+
+        db.conectar();
+
+        try {
+
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                String rowID = (String) modelo.getValueAt(i, 0);
+                String orderID = (String) modelo.getValueAt(i, 1);
+                String orderDate = (String) modelo.getValueAt(i, 2);
+                String customerID = (String) modelo.getValueAt(i, 3);
+                String country = (String) modelo.getValueAt(i, 4);
+                String city = (String) modelo.getValueAt(i, 5);
+                String productID = (String) modelo.getValueAt(i, 6);
+                String sales = (String) modelo.getValueAt(i, 7);
+
+                String updateQuery = "update TenRecord set Order_ID = '" + orderID + "', Order_Date = '" + orderDate + "', Customer_ID = '" + customerID + "', Country = '" + country + "', City = '" + city + "', Product_ID = '" + productID + "', Sales = '" + sales + "' where Row_ID = '" + rowID + "'";
+                db.query.execute(updateQuery);
+            }
+            db.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        db.desconectar();
+    }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
+        DefaultTableModel modelo = (DefaultTableModel) C_Tabla.getModel();
+        Dba db = new Dba("");
+
+        db.conectar();
+
+        try {
+            db.query.execute("select Row_ID, Order_ID, Order_Date, Customer_ID, Country, City, Product_ID, Sales from TenRecord");
+            ResultSet rs = db.query.getResultSet();
+
+            while (rs.next()) {
+                Object[] row = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)};
+                modelo.addRow(row);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        db.desconectar();
+    }//GEN-LAST:event_jButton9MouseClicked
 
     /**
      * @param args the command line arguments
@@ -795,6 +1049,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable C_Tabla;
     private javax.swing.JTextArea C_textArea;
     private javax.swing.JTextField Category;
     private javax.swing.JTextField City;
@@ -822,6 +1077,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -848,6 +1106,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
